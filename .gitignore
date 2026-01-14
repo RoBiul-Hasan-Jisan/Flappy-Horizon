@@ -9,8 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-app/
-public/
+app/component/HomeContactSection/
 # testing
 /coverage
 
