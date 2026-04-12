@@ -31,7 +31,7 @@
 
 ---
 
-##  Overview
+## Overview
 
 **Flappy Horizon** is a feature-rich reimagining of the classic Flappy Bird game, built with **OpenGL** and **C++**. Unlike the original, this version features:
 
@@ -44,7 +44,7 @@
 
 ---
 
-##  Features
+## Features
 
 ### Core Gameplay
 - Smooth physics-based bird movement with gravity simulation
