@@ -67,9 +67,7 @@
 ---
 
 ##  Screenshots
-
-[![Watch Gameplay](https://i.ibb.co.com/1GgWYxS5/image.png)](https://raw.githubusercontent.com/RoBiul-Hasan-Jisan/Flappy-Horizon/main/Flappy.mp4)
-
+ [![Flappy Horizon Gameplay](https://i.ibb.co.com/1GgWYxS5/image.png )](https://github.com/RoBiul-Hasan-Jisan/Flappy-Horizon/blob/main/Flappy.mp4)
 
 ---
 
