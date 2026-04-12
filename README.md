@@ -9,26 +9,6 @@
 
 ---
 
-##  Table of Contents
-
-- [Overview](#-overview)
-- [Features](#-features)
-- [Screenshots](#-screenshots)
-- [System Requirements](#-system-requirements)
-- [Installation Guide](#-installation-guide)
-- [How to Play](#-how-to-play)
-- [Game Mechanics](#-game-mechanics)
-- [Difficulty Progression](#-difficulty-progression)
-- [Visual Features](#-visual-features)
-- [Sound System](#-sound-system)
-- [Controls](#-controls)
-- [Development Team](#-development-team)
-- [Technical Details](#-technical-details)
-- [Troubleshooting](#-troubleshooting)
-- [Future Updates](#-future-updates)
-- [License](#-license)
-- [Acknowledgments](#-acknowledgments)
-
 ---
 
 ## Overview
@@ -88,7 +68,7 @@
 
 ##  Screenshots
 
-
+[![Watch Gameplay](https://i.ibb.co.com/1GgWYxS5/image.png)](https://raw.githubusercontent.com/RoBiul-Hasan-Jisan/Flappy-Horizon/main/Flappy.mp4)
 
 
 ---
