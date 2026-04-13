@@ -281,7 +281,7 @@ function drawScorePanel() {
 
     // restart hint
     context.fillStyle="#666"; context.font="13px sans-serif"; context.textAlign="center";
-    context.fillText("Press SPACE or tap to restart", boardWidth/2, py+ph-14);
+    context.fillText("Tap anywhere or press SPACE to restart", boardWidth/2, py+ph-14);
 
     context.textAlign="left";
 }
@@ -291,6 +291,22 @@ function updatePhase() {
     phaseTick++;
     transitionT = Math.min(1, phaseTick/60);
     if (phaseTick >= PHASE_DURATION) { phaseIdx=(phaseIdx+1)%PHASES.length; phaseTick=0; transitionT=0; }
+}
+
+// ── SHARED INPUT HANDLER ──────────────────────────────────
+function handleInput() {
+    if (gameOver) {
+        bird.y=birdY; pipeArray=[]; score=0; lives=3;
+        gameOver=false; gameStarted=true; invincible=false;
+        phaseIdx=0; phaseTick=0; transitionT=0;
+        initAmbient(); playSound('swoosh'); return;
+    }
+    if (!gameStarted) {
+        gameStarted=true;
+        playSound('swoosh');
+    }
+    velocityY = -6;
+    playSound('wing');
 }
 
 // ── WINDOW ONLOAD ─────────────────────────────────────────
@@ -309,21 +325,20 @@ window.onload = function() {
     initAmbient();
     requestAnimationFrame(update);
     setInterval(placePipes, 1500);
-    document.addEventListener("keydown", moveBird);
-    board.addEventListener("pointerdown", function() {
-    if (gameOver) {
-        bird.y=birdY; pipeArray=[]; score=0; lives=3;
-        gameOver=false; gameStarted=true; invincible=false;
-        phaseIdx=0; phaseTick=0; transitionT=0;
-        initAmbient(); playSound('swoosh'); return;
-    }
-    if (!gameStarted) {
-        gameStarted=true;
-        playSound('swoosh');
-    }
-    velocityY = -6;
-    playSound('wing');
-});
+
+    // ── keyboard (desktop) ────────────────────────────────
+    document.addEventListener("keydown", function(e) {
+        if (e.code=="Space" || e.code=="ArrowUp" || e.code=="KeyX") {
+            e.preventDefault(); // stop space from scrolling the page
+            handleInput();
+        }
+    });
+
+    // ── tap anywhere (mobile + desktop click) ─────────────
+    document.addEventListener("pointerdown", function(e) {
+        e.preventDefault();
+        handleInput();
+    }, { passive: false });
 }
 
 // ── MAIN LOOP ─────────────────────────────────────────────
@@ -346,7 +361,7 @@ function update() {
         context.fillStyle = "rgba(0,0,0,0.45)";
         context.fillRect(0, boardHeight/2+30, boardWidth, 50);
         context.fillStyle = "white"; context.font="bold 18px sans-serif"; context.textAlign="center";
-        context.fillText("Press SPACE or tap to start", boardWidth/2, boardHeight/2+62);
+        context.fillText("Tap anywhere to start", boardWidth/2, boardHeight/2+62);
         context.textAlign="left";
         drawLives();
         return;
@@ -409,21 +424,6 @@ function placePipes() {
     let openingSpace = board.height/4;
     pipeArray.push({img:topPipeImg,    x:pipeX, y:randomPipeY,                           width:pipeWidth, height:pipeHeight, passed:false});
     pipeArray.push({img:bottomPipeImg, x:pipeX, y:randomPipeY+pipeHeight+openingSpace,   width:pipeWidth, height:pipeHeight, passed:false});
-}
-
-// ── MOVE BIRD ─────────────────────────────────────────────
-function moveBird(e) {
-    if (e.code=="Space" || e.code=="ArrowUp" || e.code=="KeyX") {
-        if (gameOver) {
-            bird.y=birdY; pipeArray=[]; score=0; lives=3;
-            gameOver=false; gameStarted=true; invincible=false;
-            phaseIdx=0; phaseTick=0; transitionT=0;
-            initAmbient(); playSound('swoosh'); return;
-        }
-        if (!gameStarted) { gameStarted=true; playSound('swoosh'); }
-        velocityY = -6;
-        playSound('wing');
-    }
 }
 
 // ── COLLISION ─────────────────────────────────────────────
