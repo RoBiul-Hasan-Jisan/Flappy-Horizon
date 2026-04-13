@@ -8,16 +8,13 @@
 /* ===== BODY ===== */
 body {
     font-family: 'Courier New', Courier, monospace;
-
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 🔥 Cinematic background */
     background: radial-gradient(circle at top, #1b2735, #090a0f);
-
-    overflow: hidden;
+    overflow-x: hidden;
+    padding: 12px 8px;     /* safe breathing room on all screens */
 }
 
 /* ===== MAIN CONTAINER ===== */
@@ -26,144 +23,110 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    gap: 15px; /* spacing between elements */
-
-    transform: translateY(-10px); /* slight upward shift */
+    gap: clamp(8px, 2vw, 15px);   /* shrinks on small screens */
+    width: 100%;
+    max-width: 420px;
 }
 
-/* =====  TITLE  ===== */
+/* ===== TITLE ===== */
 .game-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 42px;
+    font-size: clamp(20px, 6vw, 42px);  /* fluid: 20px on phones → 42px on desktop */
     font-weight: 700;
-    letter-spacing: 4px;
-
-    /*  Gradient text */
+    letter-spacing: clamp(1px, 1vw, 4px);
     background: linear-gradient(90deg, #00ffcc, #00aaff, #00ffcc);
     background-size: 200% auto;
-
-   background-clip: text;             
-    -webkit-background-clip: text;     
-color: transparent;                
--webkit-text-fill-color: transparent;
-
-    /* Glow */
-    text-shadow:
-        0 0 10px rgba(0,255,200,0.8),
-        0 0 20px rgba(0,255,200,0.6),
-        0 0 40px rgba(0,170,255,0.5);
-
-    /* Animation */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;         /* text-shadow breaks background-clip; use filter instead */
+    filter: drop-shadow(0 0 8px rgba(0,255,200,0.6));
     animation: glowMove 3s linear infinite,
                floatTitle 3s ease-in-out infinite;
+    text-align: center;
 }
 
 /* ===== TITLE ANIMATIONS ===== */
 @keyframes glowMove {
-    0% { background-position: 0% center; }
+    0%   { background-position: 0% center; }
     100% { background-position: 200% center; }
 }
-
 @keyframes floatTitle {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
+    50%       { transform: translateY(6px); }
 }
 
-/* =====  GAME BOARD ===== */
+/* ===== CANVAS WRAPPER (handles aspect ratio) ===== */
+.board-wrapper {
+    width: 100%;
+    max-width: 380px;         /* matches boardWidth in JS */
+    aspect-ratio: 360 / 640;  /* locks 9:16 ratio */
+    position: relative;
+}
+
+/* ===== GAME BOARD ===== */
 #board {
-    width: 400px;
-    height: 640px;
-
+    width: 100%;              /* fills wrapper */
+    height: 100%;
+    display: block;
     background: transparent;
-
-    border-radius: 24px;
-
-    /*  Glassmorphism */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    /*  Neon shadow */
+    border-radius: clamp(12px, 3vw, 24px);
     border: 1px solid rgba(255,255,255,0.15);
     box-shadow:
         0 25px 80px rgba(0,0,0,0.8),
         0 0 25px rgba(0,255,200,0.2),
         inset 0 0 25px rgba(255,255,255,0.05);
-
-    position: relative;
-    overflow: hidden;
-
-    transition: 0.3s;
+    touch-action: none;       /* prevents scroll-jank on tap */
+    cursor: pointer;
 }
 
-/* Glow overlay */
 #board::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 24px;
-
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(0,255,200,0.3),
-        transparent
-    );
-
+    border-radius: clamp(12px, 3vw, 24px);
+    background: linear-gradient(120deg, transparent, rgba(0,255,200,0.3), transparent);
     opacity: 0.4;
     pointer-events: none;
 }
 
-/* Hover effect */
-#board:hover {
-    transform: scale(1.03);
-    box-shadow:
-        0 30px 60px rgba(0,0,0,0.9),
-        0 0 35px rgba(0,255,200,0.4);
-}
-
-/* ===== 👨 DEVELOPER INFO (NO OVERLAP) ===== */
+/* ===== DEV INFO ===== */
 .dev-info {
     text-align: center;
     font-family: 'Courier New', monospace;
-
     color: rgba(255,255,255,0.7);
 }
+.dev-info p  { font-size: clamp(10px, 2.5vw, 12px); margin-bottom: 4px; }
+.dev-info h3 { font-size: clamp(13px, 3.5vw, 16px); color: #FFD700; filter: drop-shadow(0 0 6px rgba(255,215,0,0.5)); }
+.dev-info h4 { font-size: clamp(12px, 3vw, 14px); color: #ccc; }
+.dev-info span { font-size: clamp(10px, 2.5vw, 12px); color: #888; }
 
-/* small label */
-.dev-info p {
-    font-size: 12px;
-    margin-bottom: 4px;
+/* ===== SMALL PHONES (≤ 380px wide) ===== */
+@media (max-width: 380px) {
+    body { padding: 8px 4px; }
+    .game-container { gap: 6px; }
 }
 
-/* main dev */
-.dev-info h3 {
-    font-size: 16px;
-    color: #FFD700;
-
-    text-shadow: 0 0 8px rgba(255,215,0,0.6);
+/* ===== LANDSCAPE PHONES ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    body { align-items: flex-start; padding-top: 6px; }
+    .game-container { flex-direction: row; flex-wrap: wrap; max-width: 100vw; gap: 10px; }
+    .board-wrapper { max-width: min(45vw, 260px); }
+    .game-title { font-size: clamp(14px, 3vw, 22px); writing-mode: vertical-rl; }
+    .dev-info { text-align: left; }
 }
 
-/* second dev */
-.dev-info h4 {
-    font-size: 14px;
-    color: #ccc;
+/* ===== TABLETS (768px+) ===== */
+@media (min-width: 768px) {
+    .board-wrapper { max-width: 360px; }
 }
 
-/* separator */
-.dev-info span {
-    font-size: 12px;
-    color: #888;
-}
-
-/* ===== OPTIONAL: SCORE HUD ===== */
-#score {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-
-    color: #00ffcc;
-    font-size: 22px;
-
-    text-shadow: 0 0 10px rgba(0,255,204,0.8);
+/* ===== DESKTOPS (1024px+) ===== */
+@media (min-width: 1024px) {
+    #board:hover {
+        transform: scale(1.03);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 35px rgba(0,255,200,0.4);
+        transition: 0.3s;
+    }
 }
