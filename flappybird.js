@@ -311,10 +311,19 @@ window.onload = function() {
     setInterval(placePipes, 1500);
     document.addEventListener("keydown", moveBird);
     board.addEventListener("pointerdown", function() {
-        if (!gameStarted || gameOver) return;
-        velocityY = -6;
-        playSound('wing');
-    });
+    if (gameOver) {
+        bird.y=birdY; pipeArray=[]; score=0; lives=3;
+        gameOver=false; gameStarted=true; invincible=false;
+        phaseIdx=0; phaseTick=0; transitionT=0;
+        initAmbient(); playSound('swoosh'); return;
+    }
+    if (!gameStarted) {
+        gameStarted=true;
+        playSound('swoosh');
+    }
+    velocityY = -6;
+    playSound('wing');
+});
 }
 
 // ── MAIN LOOP ─────────────────────────────────────────────
