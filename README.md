@@ -9,7 +9,11 @@
 
 ---
 
+##  Web Demo
 
+ **Play Now:** [Play Flappy Horizon](https://robiul-hasan-jisan.github.io/Flappy-Horizon/)
+
+>  **Note:** > This web version is a simplified demonstration built to showcase the core gameplay mechanics and system design. It does not fully represent the complete OpenGL-based desktop version, but follows a similar architecture, logic flow, and development approach.
 
 ## Overview
 
