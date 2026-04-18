@@ -335,10 +335,14 @@ window.onload = function() {
     });
 
     // ── tap anywhere (mobile + desktop click) ─────────────
-    document.addEventListener("pointerdown", function(e) {
-        e.preventDefault();
-        handleInput();
-    }, { passive: false });
+  document.addEventListener("pointerdown", function(e) {
+    e.preventDefault();
+    handleInput();
+}, { passive: false });
+
+   document.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+}, { passive: false });
 }
 
 // ── MAIN LOOP ─────────────────────────────────────────────
