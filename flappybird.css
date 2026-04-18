@@ -16,7 +16,7 @@ body {
     align-items: center;
     background: radial-gradient(circle at top, #1b2735, #090a0f);
     overflow-x: hidden;
-    padding: 12px 8px;     /* safe breathing room on all screens */
+    padding: 12px 8px;
 }
 
 /* ===== MAIN CONTAINER ===== */
@@ -25,7 +25,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(8px, 2vw, 15px);   /* shrinks on small screens */
+    gap: clamp(8px, 2vw, 15px);
     width: 100%;
     max-width: 420px;
 }
@@ -33,7 +33,7 @@ body {
 /* ===== TITLE ===== */
 .game-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(20px, 6vw, 42px);  /* fluid: 20px on phones → 42px on desktop */
+    font-size: clamp(20px, 6vw, 42px);
     font-weight: 700;
     letter-spacing: clamp(1px, 1vw, 4px);
     background: linear-gradient(90deg, #00ffcc, #00aaff, #00ffcc);
@@ -42,7 +42,7 @@ body {
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-    text-shadow: none;         /* text-shadow breaks background-clip; use filter instead */
+    text-shadow: none;
     filter: drop-shadow(0 0 8px rgba(0,255,200,0.6));
     animation: glowMove 3s linear infinite,
                floatTitle 3s ease-in-out infinite;
@@ -54,22 +54,23 @@ body {
     0%   { background-position: 0% center; }
     100% { background-position: 200% center; }
 }
+
 @keyframes floatTitle {
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(6px); }
 }
 
-/* ===== CANVAS WRAPPER (handles aspect ratio) ===== */
+/* ===== CANVAS WRAPPER ===== */
 .board-wrapper {
     width: 100%;
-    max-width: 380px;         /* matches boardWidth in JS */
-    aspect-ratio: 360 / 640;  /* locks 9:16 ratio */
+    max-width: 380px;
+    aspect-ratio: 360 / 640;
     position: relative;
 }
 
 /* ===== GAME BOARD ===== */
 #board {
-    width: 100%;              /* fills wrapper */
+    width: 100%;
     height: 100%;
     display: block;
     background: transparent;
@@ -79,8 +80,10 @@ body {
         0 25px 80px rgba(0,0,0,0.8),
         0 0 25px rgba(0,255,200,0.2),
         inset 0 0 25px rgba(255,255,255,0.05);
-    touch-action: none;       /* prevents scroll-jank on tap */
+    touch-action: none;
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #board::before {
@@ -99,12 +102,12 @@ body {
     font-family: 'Courier New', monospace;
     color: rgba(255,255,255,0.7);
 }
-.dev-info p  { font-size: clamp(10px, 2.5vw, 12px); margin-bottom: 4px; }
-.dev-info h3 { font-size: clamp(13px, 3.5vw, 16px); color: #FFD700; filter: drop-shadow(0 0 6px rgba(255,215,0,0.5)); }
-.dev-info h4 { font-size: clamp(12px, 3vw, 14px); color: #ccc; }
+.dev-info p    { font-size: clamp(10px, 2.5vw, 12px); margin-bottom: 4px; }
+.dev-info h3   { font-size: clamp(13px, 3.5vw, 16px); color: #FFD700; filter: drop-shadow(0 0 6px rgba(255,215,0,0.5)); }
+.dev-info h4   { font-size: clamp(12px, 3vw, 14px); color: #ccc; }
 .dev-info span { font-size: clamp(10px, 2.5vw, 12px); color: #888; }
 
-/* ===== SMALL PHONES (≤ 380px wide) ===== */
+/* ===== SMALL PHONES (≤ 380px) ===== */
 @media (max-width: 380px) {
     body { padding: 8px 4px; }
     .game-container { gap: 6px; }
